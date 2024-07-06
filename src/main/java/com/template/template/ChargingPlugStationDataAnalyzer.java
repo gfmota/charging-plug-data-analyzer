@@ -27,10 +27,11 @@ public class ChargingPlugStationDataAnalyzer implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args)  {
+    public void run(ApplicationArguments args) throws InterruptedException {
         for (int i = 0; i < numberOfRequests; i++) {
             analyzeDailyReport();
             analyzeCurrentStatus();
+            Thread.sleep(10);
         }
     }
 
