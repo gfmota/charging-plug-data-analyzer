@@ -1,13 +1,13 @@
 import sys
 
 def prepare_test_plan(number_of_threads):
-    base_file = "jmeter/PassiveGatewayTest_base.jmx"
+    base_file = "jmeter/PollingGatewayTest_base.jmx"
     with open(base_file, 'r') as file:
         content = file.read()
 
     updated_content = content.replace("<NUMBER-OF-THREADS>", str(number_of_threads))
 
-    final_file = "jmeter/PassiveGatewayTest.jmx"
+    final_file = "jmeter/PollingGatewayTest.jmx"
     with open(final_file, 'w') as file:
         file.write(updated_content)
 
