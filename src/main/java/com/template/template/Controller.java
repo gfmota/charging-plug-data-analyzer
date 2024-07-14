@@ -22,4 +22,9 @@ public class Controller {
         log.info("Received current status: {}", currentStatus);
         return ResponseEntity.ok().build();
     }
+    @PostMapping("/hourly-report")
+    private ResponseEntity<?> postChargingPlugHourlyReport(final @RequestBody Object hourlyReport) {
+        log.info("Received hourly report: {}", hourlyReport);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -24,7 +24,38 @@ public class Subscriber implements ApplicationRunner {
         for (int i = 0; i < numberOfClients; i++) {
             subscribeDaily();
             subscribeLastStatus();
+            subscribeHourly();
         }
+    }
+
+    private void subscribeHourly() {
+        log.info("Subscribing to daily report");
+        final var requestBody = ChargingPlugGatewaySubscribeRequestBodyDTO.builder()
+                .path("http://localhost:8081")
+                .uri("/hourly-report")
+                .eventType(ChargingPlugStationEventType.HOURLY)
+                .build();
+
+        WebClient.create(gatewayPath)
+                .post()
+                .uri(subscribeUri)
+                .accept(MediaType.ALL)
+                .bodyValue(requestBody)
+                .retrieve()
+                .onStatus(HttpStatusCode::is2xxSuccessful, clientResponse -> {
+                    log.info("Subscribing hourly report success");
+                    return Mono.empty();
+                })
+                .onStatus(HttpStatusCode::isError, clientResponse -> {
+                    log.error("Error subscribing for hourly report");
+                    return Mono.empty();
+                })
+                .bodyToMono(Void.class)
+                .onErrorResume(throwable -> {
+                    log.error("Error connecting to gateway", throwable);
+                    return Mono.empty();
+                })
+                .subscribe();
     }
 
     private void subscribeDaily() {
