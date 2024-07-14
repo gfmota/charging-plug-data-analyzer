@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.concurrent.TimeUnit;
+
 @Component
 @Slf4j
 public class Subscriber implements ApplicationRunner {
@@ -25,6 +27,7 @@ public class Subscriber implements ApplicationRunner {
             subscribeDaily();
             subscribeLastStatus();
             subscribeHourly();
+            TimeUnit.MILLISECONDS.sleep(1);
         }
     }
 
